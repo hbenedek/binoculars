@@ -7,6 +7,12 @@ name = "pypi"
 maturin = "*"
 
 [dev-packages]
+black = "*"
+isort = "*"
+pre-commit = "*"
+pydocstyle = "*"
+ruff = "*"
+mypy = "*"
 
 [requires]
 python_version = "3.10"
