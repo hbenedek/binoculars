@@ -4,6 +4,7 @@
    contain the root `toctree` directive.
 
 Welcome to binoculars's documentation!
+Minor change.
 ======================================
 
 .. toctree::
