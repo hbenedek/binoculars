@@ -1,3 +1,6 @@
+"""Binoculars: A Python package for machine learning models."""
+# ruff: disable=F403
+# ruff: disable=F405
 from .binoculars import *
 
 __doc__ = binoculars.__doc__
