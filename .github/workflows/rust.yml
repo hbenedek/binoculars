@@ -21,8 +21,11 @@ jobs:
           - nightly
     steps:
       - uses: actions/checkout@v3
-      - run: rustup update ${{ matrix.toolchain }} && rustup default ${{ matrix.toolchain }}
-      - run: cargo build --verbose
-      - run: cargo test --verbose
+      - run: |
+          rustup update ${{ matrix.toolchain }} && rustup default ${{ matrix.toolchain }}
+          cargo build --verbose
+          cargo test --verbose
       - name: Run Clippy
-        run: cargo clippy --all-targets --all-features
+        run: |
+          rustup component add clippy
+          cargo clippy --all-targets --all-features
