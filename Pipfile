@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 maturin = "*"
 sphinx = "*"
+sphinx-rtd-theme = "*"
+numpy = "*"
 
 [dev-packages]
 black = "*"
