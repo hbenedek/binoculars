@@ -19,11 +19,12 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install pipenv
           pipenv install --dev --system --deploy
+          pipenv install tomli
       - name: Check formatting
         run: |
           black --check .
           isort --check --gitignore .
-      - name: Lint with Pylint
+      - name: Lint with ruff
         run: |
           ruff python
       - name: Check doc style with pydocstyle
