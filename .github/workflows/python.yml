@@ -1,3 +1,5 @@
+name: Python linting
+
 on:
   push:
     branches: [main]

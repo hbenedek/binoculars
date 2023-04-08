@@ -8,7 +8,7 @@ from binoculars import LinearModelRust
 class LinearModel:
     """Least squares linear regression with Rust backend."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._rustobj = LinearModelRust()
         self.weights = None
         self.method = None
