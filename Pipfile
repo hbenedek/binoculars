@@ -4,9 +4,6 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-maturin = "*"
-sphinx = "*"
-sphinx-rtd-theme = "*"
 numpy = "*"
 
 [dev-packages]
@@ -14,6 +11,9 @@ black = "*"
 isort = "*"
 pre-commit = "*"
 pydocstyle = "*"
+maturin = "*"
+sphinx = "*"
+sphinx-rtd-theme = "*"
 ruff = "*"
 mypy = "*"
 
