@@ -13,7 +13,6 @@ class LinearModel:
         self.weights = None
         self.method = None
         self.is_bias = False
-        self.bias = 0.0
 
     def __str__(self) -> str:
         """Return a string representation of the model."""

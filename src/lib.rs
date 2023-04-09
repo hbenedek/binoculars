@@ -1,6 +1,6 @@
 use ndarray_linalg::LeastSquaresSvd;
 use pyo3::prelude::*;
-use ndarray::{Array, Array1, Array2, stack, Axis, array};
+use ndarray::{Array, Array1, array};
 
 #[pyclass]
 struct LinearModelRust {
@@ -42,27 +42,28 @@ impl LinearModelRust {
         Ok(())
     }
 
-    fn fit(&mut self, mut x: Vec<Vec<f64>>, y: Vec<f64>) -> PyResult<()> {
-        if self.with_bias {
-            for p in x.iter_mut() {
-                p.push(1.0)
-            }
-        }
+    fn fit(&mut self, x: Vec<Vec<f64>>, y: Vec<f64>) -> PyResult<()> {
+        let x = self.add_bias(x);
         let x = Array::from_shape_vec((x.len(), x[0].len()), x.into_iter().flatten().collect()).unwrap();
         let y = Array1::from(y);
         let weights = x.least_squares(&y).unwrap().solution.to_vec();
-        self.set_weights(weights);
+        self.set_weights(weights).unwrap();
         Ok(())
     }
 
-    fn predict(&self, mut x: Vec<Vec<f64>>) -> Vec<f64> {
+    fn predict(&self, x: Vec<Vec<f64>>) -> Vec<f64> {
+        let x = self.add_bias(x);
+        let x = Array::from_shape_vec((x.len(), x[0].len()), x.into_iter().flatten().collect()).unwrap();
+        x.dot(&self.weights).to_vec()
+    }
+
+    fn add_bias(&self, mut x: Vec<Vec<f64>>) -> Vec<Vec<f64>> {
         if self.with_bias {
             for p in x.iter_mut() {
                 p.push(1.0)
             }
         }
-        let x = Array::from_shape_vec((x.len(), x[0].len()), x.into_iter().flatten().collect()).unwrap();
-        x.dot(&self.weights).to_vec()
+        x
     }
 }
 
