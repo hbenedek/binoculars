@@ -27,3 +27,7 @@ jobs:
         run: |
           rustup component add clippy
           cargo clippy --all-targets --all-features
+
+      - name: Format check
+        run: |
+          cargo fmt --check
