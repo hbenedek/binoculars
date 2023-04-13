@@ -2,7 +2,7 @@ use pyo3::prelude::*;
 use ndarray::{Array, Array1, array};
 use ndarray_linalg::LeastSquaresSvd;
 use ndarray_linalg::Inverse;
-use crate::linear::utils::{add_bias, sigmoid, compute_logistic_gradient, compute_logistic_loss, init_vector};
+use crate::linear::utils::{add_bias, sigmoid, compute_logistic_gradient, init_vector, compute_logistic_loss};
 
 
 #[pyclass]
@@ -19,8 +19,10 @@ pub struct LogisticRegressionRust {
     schema: Vec<String>,
     with_bias: bool,
     method: String,
-    iter: usize,
-    loss: f64,
+    epoch: usize,
+    batch: usize,
+    learning_rate: f64,
+    losses: Vec<f64>,
 }
 
 #[pymethods]
@@ -91,11 +93,11 @@ impl LinearRegressionRust {
 impl LogisticRegressionRust {
     #[new]
     fn new() -> Self {
-        LogisticRegressionRust { weights: array![], schema: Vec::new(), with_bias: false, method: "".to_string(), iter: 0, loss: 0.0}
+        LogisticRegressionRust { weights: array![], schema: Vec::new(), with_bias: false, method: "".to_string(), epoch: 0, batch: 0, losses: Vec::new(), learning_rate: 0.0}
     }
 
-    fn get_loss(&self) -> PyResult<f64> {
-        Ok(self.loss)
+    fn get_losses(&self) -> PyResult<Vec<f64>> {
+        Ok(self.losses.to_vec())
     }
 
     fn get_weights(&self) -> PyResult<Vec<f64>> {
@@ -105,6 +107,11 @@ impl LogisticRegressionRust {
     fn set_weights(&mut self, weights: Vec<f64>) -> PyResult<()> {
         let weights = Array1::from(weights);
         self.weights = weights;
+        Ok(())
+    }
+
+    fn with_learning_rate(&mut self, lr: f64) -> PyResult<()> {
+        self.learning_rate = lr;
         Ok(())
     }
 
@@ -118,24 +125,37 @@ impl LogisticRegressionRust {
         Ok(())
     }
 
-    fn with_iter(&mut self, iter: usize) -> PyResult<()> {
-        self.iter = iter;
+    fn with_epochs(&mut self, epoch: usize) -> PyResult<()> {
+        self.epoch = epoch;
         Ok(())
     }
 
+    fn with_batch_size(&mut self, batch: usize) -> PyResult<()> {
+        self.batch = batch;
+        Ok(())
+    }
+
+
     fn fit(&mut self, x: Vec<Vec<f64>>, y: Vec<f64>) -> PyResult<()> {
         let x = add_bias(x, self.with_bias);
-        let x = Array::from_shape_vec((x.len(), x[0].len()), x.into_iter().flatten().collect()).unwrap();
-        let y = Array1::from(y);
-        let mut weights = init_vector(x.ncols());
+        let mut weights = init_vector(x[0].len());
+        self.losses = Vec::new();
         if self.method == String::from("gd") {
-            for _ in 0..self.iter {
-                let gradient = compute_logistic_gradient(&x, &y, &weights);
-            weights = weights - gradient;
+            for _ in 0..self.epoch {
+                let mut loss = 0.0;
+                let x_chunks = x.chunks(self.batch).map(|chunk| chunk.to_vec());
+                let y_chunks = y.chunks(self.batch).map(|chunk| chunk.to_vec());
+                for (xb, yb) in x_chunks.zip(y_chunks) {
+                    let xb = Array::from_shape_vec((xb.len(), xb[0].len()), xb.into_iter().flatten().collect()).unwrap();
+                    let yb = Array1::from(yb);
+                    let gradient = compute_logistic_gradient(&xb, &yb, &weights);
+                    weights = weights - self.learning_rate * gradient;
+                    loss += compute_logistic_loss(&xb, &yb, &weights);
+                }
+                self.losses.push(loss);
             }
         }
         self.set_weights(weights.to_vec()).unwrap();
-        self.loss = compute_logistic_loss(&x, &y, &weights);
         Ok(())
     }
 
