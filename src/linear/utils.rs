@@ -14,7 +14,11 @@ pub fn sigmoid(x: f64) -> f64 {
     1.0 / (1.0 + (-x).exp())
 }
 
-pub fn compute_logistic_gradient(x: &Array2<f64>, y: &Array1<f64>, weights: &Array1<f64>) -> Array1<f64> {
+pub fn compute_logistic_gradient(
+    x: &Array2<f64>,
+    y: &Array1<f64>,
+    weights: &Array1<f64>,
+) -> Array1<f64> {
     let mu = x.dot(weights);
     let mu = mu.mapv(sigmoid);
     x.t().dot(&(mu - y))
@@ -25,8 +29,8 @@ pub fn compute_logistic_loss(x: &Array2<f64>, y: &Array1<f64>, weights: &Array1<
     let mu = mu.mapv(sigmoid);
     let log_mu = y * mu.mapv(f64::ln);
     let n = x.nrows() as f64;
-    - (1.0 / n) * y.t().dot(&log_mu) - (1.0 - y).t().dot(&(1.0 - mu).mapv(f64::ln))
-    }
+    -(1.0 / n) * y.t().dot(&log_mu) - (1.0 - y).t().dot(&(1.0 - mu).mapv(f64::ln))
+}
 
 pub fn init_vector(n: usize) -> Array1<f64> {
     let mut rng = thread_rng();
