@@ -24,6 +24,7 @@ dependencies = [
  "ndarray",
  "ndarray-linalg",
  "pyo3",
+ "rand",
 ]
 
 [[package]]
