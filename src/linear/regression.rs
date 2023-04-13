@@ -1,9 +1,10 @@
-use pyo3::prelude::*;
-use ndarray::{Array, Array1, array};
-use ndarray_linalg::LeastSquaresSvd;
+use crate::linear::utils::{
+    add_bias, compute_logistic_gradient, compute_logistic_loss, init_vector, sigmoid,
+};
+use ndarray::{array, Array, Array1};
 use ndarray_linalg::Inverse;
-use crate::linear::utils::{add_bias, sigmoid, compute_logistic_gradient, init_vector, compute_logistic_loss};
-
+use ndarray_linalg::LeastSquaresSvd;
+use pyo3::prelude::*;
 
 #[pyclass]
 pub struct LinearRegressionRust {
@@ -29,7 +30,12 @@ pub struct LogisticRegressionRust {
 impl LinearRegressionRust {
     #[new]
     fn new() -> Self {
-        LinearRegressionRust { weights: array![], schema: Vec::new(), with_bias: false, method: "".to_string() }
+        LinearRegressionRust {
+            weights: array![],
+            schema: Vec::new(),
+            with_bias: false,
+            method: "".to_string(),
+        }
     }
 
     fn get_weights(&self) -> PyResult<Vec<f64>> {
@@ -44,7 +50,7 @@ impl LinearRegressionRust {
             }
         }
         Ok(weights)
-        }
+    }
 
     fn set_weights(&mut self, weights: Vec<f64>) -> PyResult<()> {
         let weights = Array1::from(weights);
@@ -70,7 +76,8 @@ impl LinearRegressionRust {
 
     fn fit(&mut self, x: Vec<Vec<f64>>, y: Vec<f64>) -> PyResult<()> {
         let x = add_bias(x, self.with_bias);
-        let x = Array::from_shape_vec((x.len(), x[0].len()), x.into_iter().flatten().collect()).unwrap();
+        let x = Array::from_shape_vec((x.len(), x[0].len()), x.into_iter().flatten().collect())
+            .unwrap();
         let y = Array1::from(y);
         let mut weights = Vec::new();
         if self.method == String::from("ls") {
@@ -84,7 +91,8 @@ impl LinearRegressionRust {
 
     fn predict(&self, x: Vec<Vec<f64>>) -> Vec<f64> {
         let x = add_bias(x, self.with_bias);
-        let x = Array::from_shape_vec((x.len(), x[0].len()), x.into_iter().flatten().collect()).unwrap();
+        let x = Array::from_shape_vec((x.len(), x[0].len()), x.into_iter().flatten().collect())
+            .unwrap();
         x.dot(&self.weights).to_vec()
     }
 }
@@ -93,7 +101,16 @@ impl LinearRegressionRust {
 impl LogisticRegressionRust {
     #[new]
     fn new() -> Self {
-        LogisticRegressionRust { weights: array![], schema: Vec::new(), with_bias: false, method: "".to_string(), epoch: 0, batch: 0, losses: Vec::new(), learning_rate: 0.0}
+        LogisticRegressionRust {
+            weights: array![],
+            schema: Vec::new(),
+            with_bias: false,
+            method: "".to_string(),
+            epoch: 0,
+            batch: 0,
+            losses: Vec::new(),
+            learning_rate: 0.0,
+        }
     }
 
     fn get_losses(&self) -> PyResult<Vec<f64>> {
@@ -135,7 +152,6 @@ impl LogisticRegressionRust {
         Ok(())
     }
 
-
     fn fit(&mut self, x: Vec<Vec<f64>>, y: Vec<f64>) -> PyResult<()> {
         let x = add_bias(x, self.with_bias);
         let mut weights = init_vector(x[0].len());
@@ -146,7 +162,11 @@ impl LogisticRegressionRust {
                 let x_chunks = x.chunks(self.batch).map(|chunk| chunk.to_vec());
                 let y_chunks = y.chunks(self.batch).map(|chunk| chunk.to_vec());
                 for (xb, yb) in x_chunks.zip(y_chunks) {
-                    let xb = Array::from_shape_vec((xb.len(), xb[0].len()), xb.into_iter().flatten().collect()).unwrap();
+                    let xb = Array::from_shape_vec(
+                        (xb.len(), xb[0].len()),
+                        xb.into_iter().flatten().collect(),
+                    )
+                    .unwrap();
                     let yb = Array1::from(yb);
                     let gradient = compute_logistic_gradient(&xb, &yb, &weights);
                     weights = weights - self.learning_rate * gradient;
@@ -161,9 +181,9 @@ impl LogisticRegressionRust {
 
     fn predict(&self, x: Vec<Vec<f64>>) -> Vec<f64> {
         let x = add_bias(x, self.with_bias);
-        let x = Array::from_shape_vec((x.len(), x[0].len()), x.into_iter().flatten().collect()).unwrap();
+        let x = Array::from_shape_vec((x.len(), x[0].len()), x.into_iter().flatten().collect())
+            .unwrap();
         let mu = x.dot(&self.weights);
         mu.mapv(sigmoid).to_vec()
     }
-
 }

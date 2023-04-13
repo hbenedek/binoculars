@@ -1,6 +1,5 @@
 use pyo3::prelude::*;
 
-
 mod linear {
     pub mod regression;
     mod utils;
