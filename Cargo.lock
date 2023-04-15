@@ -25,6 +25,7 @@ dependencies = [
  "ndarray-linalg",
  "pyo3",
  "rand",
+ "rand_chacha",
 ]
 
 [[package]]
