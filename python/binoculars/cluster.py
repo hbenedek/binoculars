@@ -5,7 +5,7 @@ from typing import Self
 from binoculars import KMeansRust
 
 
-class KMeans():
+class KMeans:
     """KMeans clustering with Rust backend.
 
     K-means tries to find the centroids of the clusters by minimizing the
@@ -37,7 +37,6 @@ class KMeans():
     Reference:
     [1] https://web.stanford.edu/~rezab/classes/cme323/S16/projects_reports/bodoia.pdf
     """
-
 
     def __init__(self, n_clusters, init="random", max_iter=100, random_state=0) -> None:
         self._rustobj = KMeansRust(n_clusters, init, max_iter, random_state)
