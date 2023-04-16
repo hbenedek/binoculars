@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+* Added README.md [#13](https://github.com/hbenedek/binoculars/pull/13)
 * Added CHANGELOG.md [#10](https://github.com/hbenedek/binoculars/pull/10)
 * Added `LogisticRegression` [#5](https://github.com/hbenedek/binoculars/pull/5)
 * Added Python and Rust CI [#6](https://github.com/hbenedek/binoculars/pull/6) [#4](https://github.com/hbenedek/binoculars/pull/4)
