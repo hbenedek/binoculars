@@ -54,6 +54,11 @@ impl KMeansRust {
         Ok(self.centroids.to_vec())
     }
 
+    fn set_centroids(&mut self, centroids: Vec<Vec<f64>>) -> PyResult<()> {
+        self.centroids = centroids;
+        Ok(())
+    }
+
     fn kmeans_mapper(&self, x: Vec<f64>) -> (usize, (Vec<f64>, usize)) {
         let (_dist, idx) = self.centroids.iter().enumerate().map(|(e, c)| (euclidean_distance(x.to_vec(), c.to_vec()), e))
         .fold((std::f64::MAX, 0), |(min_dist,min_idx), (dist, idx)| if dist < min_dist {(dist, idx)} else {(min_dist, min_idx)});
