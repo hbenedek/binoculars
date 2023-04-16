@@ -38,7 +38,7 @@ class KMeans:
     [1] https://web.stanford.edu/~rezab/classes/cme323/S16/projects_reports/bodoia.pdf
     """
 
-    def __init__(self, n_clusters, init="random", max_iter=100, random_state=0) -> None:
+    def __init__(self, n_clusters: int, init: str = "random", max_iter: int = 100, random_state: int = 0) -> None:
         """Initialize the model."""
         self._rustobj = KMeansRust(n_clusters, init, max_iter, random_state)
         self.n_clusters = n_clusters
