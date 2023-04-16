@@ -1,4 +1,4 @@
-"""Module for linear regression."""
+"""Module for kmeans."""
 
 from typing import Self
 
