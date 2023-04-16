@@ -10,8 +10,8 @@ use rand_chacha::ChaCha8Rng;
 pub struct KMeansRust {
     k: usize,
     num_iter: usize,
-    centroids: Vec<Vec<f64>>,
     init: String,
+    centroids: Vec<Vec<f64>>,
     rng: ChaCha8Rng,
     x: Vec<Vec<f64>>,
 }
@@ -19,13 +19,13 @@ pub struct KMeansRust {
 #[pymethods]
 impl KMeansRust {
     #[new]
-    fn new() -> Self {
+    fn new(k: usize, init: String, num_iter: usize, random_state: usize) -> Self {
         KMeansRust {
-            k: 0,
-            num_iter: 0,
+            k,
+            num_iter,
+            init,
             centroids: Vec::new(),
-            rng: ChaCha8Rng::seed_from_u64(0),
-            init: "random".to_string(),
+            rng: ChaCha8Rng::seed_from_u64(random_state as u64),
             x: Vec::new(),
         }
     }
@@ -87,7 +87,6 @@ impl KMeansRust {
         sum.iter().map(|x| x / count as f64).collect_vec()
     }
     fn fit(&mut self, x: Vec<Vec<f64>>) -> PyResult<()> {
-        // random choose k points from x as centroids
         self.x = x.to_vec();
         self.centroids = self.init_centroids();
 
