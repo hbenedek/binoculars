@@ -39,6 +39,7 @@ class KMeans:
     """
 
     def __init__(self, n_clusters, init="random", max_iter=100, random_state=0) -> None:
+        """Initialize the model."""
         self._rustobj = KMeansRust(n_clusters, init, max_iter, random_state)
         self.n_clusters = n_clusters
 
