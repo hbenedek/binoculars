@@ -8,6 +8,7 @@ mod linear {
 
 mod cluster {
     pub mod kmeans;
+    mod dist;
     pub use crate::cluster::kmeans::KMeansRust;
 }
 
