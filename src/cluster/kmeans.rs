@@ -1,10 +1,10 @@
 use std::vec::IntoIter;
 
-use pyo3::prelude::*;
-use rand::{SeedableRng, Rng};
-use rand_chacha::ChaCha8Rng;
+use crate::cluster::dist::euclidean_distance;
 use itertools::Itertools;
-use crate::cluster::dist::{euclidean_distance};
+use pyo3::prelude::*;
+use rand::{Rng, SeedableRng};
+use rand_chacha::ChaCha8Rng;
 
 #[pyclass]
 pub struct KMeansRust {
@@ -13,7 +13,7 @@ pub struct KMeansRust {
     centroids: Vec<Vec<f64>>,
     init: String,
     rng: ChaCha8Rng,
-    x : Vec<Vec<f64>>,
+    x: Vec<Vec<f64>>,
 }
 
 #[pymethods]
@@ -60,14 +60,30 @@ impl KMeansRust {
     }
 
     fn kmeans_mapper(&self, x: Vec<f64>) -> (usize, (Vec<f64>, usize)) {
-        let (_dist, idx) = self.centroids.iter().enumerate().map(|(e, c)| (euclidean_distance(x.to_vec(), c.to_vec()), e))
-        .fold((std::f64::MAX, 0), |(min_dist,min_idx), (dist, idx)| if dist < min_dist {(dist, idx)} else {(min_dist, min_idx)});
+        let (_dist, idx) = self
+            .centroids
+            .iter()
+            .enumerate()
+            .map(|(e, c)| (euclidean_distance(x.to_vec(), c.to_vec()), e))
+            .fold((std::f64::MAX, 0), |(min_dist, min_idx), (dist, idx)| {
+                if dist < min_dist {
+                    (dist, idx)
+                } else {
+                    (min_dist, min_idx)
+                }
+            });
         (idx, (x, 1))
     }
 
     fn kmeans_reducer(&self, xs: Vec<(Vec<f64>, usize)>) -> Vec<f64> {
-        let (sum, count) = xs.iter()
-            .fold((vec![0.0; xs[0].0.len()], 0), |(sum, count), (x, c)| (sum.iter().zip(x.iter()).map(|(a, b)| a + b).collect(), count + c));
+        let (sum, count) = xs
+            .iter()
+            .fold((vec![0.0; xs[0].0.len()], 0), |(sum, count), (x, c)| {
+                (
+                    sum.iter().zip(x.iter()).map(|(a, b)| a + b).collect(),
+                    count + c,
+                )
+            });
         sum.iter().map(|x| x / count as f64).collect_vec()
     }
     fn fit(&mut self, x: Vec<Vec<f64>>) -> PyResult<()> {
@@ -76,7 +92,8 @@ impl KMeansRust {
         self.centroids = self.init_centroids();
 
         for _ in 0..self.num_iter {
-            self.centroids = self.x
+            self.centroids = self
+                .x
                 .iter()
                 .map(|x| self.kmeans_mapper(x.to_vec()))
                 .sorted_by_key(|x| x.0)
@@ -86,7 +103,6 @@ impl KMeansRust {
                 .collect::<Vec<Vec<f64>>>();
         }
         Ok(())
-
     }
 
     fn init_centroids(&mut self) -> Vec<Vec<f64>> {
@@ -103,11 +119,11 @@ impl KMeansRust {
     }
 
     fn predict(&self, x: Vec<Vec<f64>>) -> PyResult<Vec<usize>> {
-        let y = x.iter()
-        .map(|x| self.kmeans_mapper(x.to_vec()))
-        .map(|x| x.0)
-        .collect::<Vec<usize>>();
+        let y = x
+            .iter()
+            .map(|x| self.kmeans_mapper(x.to_vec()))
+            .map(|x| x.0)
+            .collect::<Vec<usize>>();
         Ok(y)
     }
-
 }
