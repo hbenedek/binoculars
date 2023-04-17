@@ -1,6 +1,6 @@
 """Module for kmeans."""
 
-from typing import Self
+from __future__ import annotations
 
 from binoculars import KMeansRust
 
@@ -51,7 +51,7 @@ class KMeans:
         """Return a string representation of the model."""
         return f"KMeans(n_clusters={self.n_clusters})"
 
-    def fit(self, X: list[list[float]]) -> Self:
+    def fit(self, X: list[list[float]]) -> KMeans:
         """Fit the model using X as training data."""
         self._rustobj.fit(X)
         return self
@@ -64,28 +64,28 @@ class KMeans:
         """Get the centrroids of the fitted model."""
         return self._rustobj.get_centroids()
 
-    def set_centroids(self, centroids: list[list[float]]) -> Self:
+    def set_centroids(self, centroids: list[list[float]]) -> KMeans:
         """Set the centroids of the fitted model."""
         self._rustobj.set_centroids(centroids)
         return self
 
-    def with_k(self, n_clusters: int) -> Self:
+    def with_k(self, n_clusters: int) -> KMeans:
         """Set the number of clusters."""
         self._rustobj.with_k(n_clusters)
         self.n_clusters = n_clusters
         return self
 
-    def with_max_iter(self, max_iter: int) -> Self:
+    def with_max_iter(self, max_iter: int) -> KMeans:
         """Set the number of iterations of Lloyd's algorithm."""
         self._rustobj.with_num_iter(max_iter)
         return self
 
-    def with_random_state(self, random_state: int) -> Self:
+    def with_random_state(self, random_state: int) -> KMeans:
         """Set the random state of the model."""
         self._rustobj.with_random_state(random_state)
         return self
 
-    def with_init(self, init: str) -> Self:
+    def with_init(self, init: str) -> KMeans:
         """Set the initialization of the centroids, either "random" or "kmeans++"."""
         assert init in ["random", "kmeans++"]
         self._rustobj.with_init(init)
