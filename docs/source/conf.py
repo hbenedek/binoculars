@@ -13,7 +13,12 @@ author = 'hbenedek'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.napoleon']
+extensions = [
+    'readthedocs_ext.readthedocs',
+    'sphinx.ext.viewcode',
+    'sphinx.ext.todo',
+    'sphinx_toolbox.more_autodoc',
+    'sphinx.ext.autodoc']
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
@@ -25,10 +30,3 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
-
-import os
-import sys
-from pathlib import Path
-
-current = Path(os.path.abspath(os.path.dirname(__file__)))
-sys.path.insert(0, os.path.abspath(current.parent.parent))
