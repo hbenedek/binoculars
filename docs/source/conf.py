@@ -28,12 +28,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
 
-import os
-import sys
-sys.path.insert(0, os.path.abspath('../../python/binoculars'))
+#import os
+#import sys
+#sys.path.insert(0, os.path.abspath('../../python/binoculars'))
 
-import os
-on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
-if on_rtd:
-   # We are on Read the Docs, so we need to mock the CBLAS library
-   autodoc_mock_imports = ['cblas']
