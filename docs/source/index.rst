@@ -10,8 +10,8 @@ Welcome to binoculars's documentation!
    :maxdepth: 1
    :caption: API Reference
 
-   source/modules/linear
-   source/modules/cluster
+   modules/linear
+   modules/cluster
 
 
 
