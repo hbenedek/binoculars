@@ -1,7 +1,7 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath('../../python'))
+sys.path.insert(0, os.path.abspath('../../python/binoculars'))
 
 # Configuration file for the Sphinx documentation builder.
 #
@@ -19,7 +19,6 @@ author = 'hbenedek'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    'readthedocs_ext.readthedocs',
     'sphinx.ext.napoleon',
     'sphinx.ext.autodoc']
 
