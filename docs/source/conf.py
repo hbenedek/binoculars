@@ -19,9 +19,7 @@ author = 'hbenedek'
 
 extensions = [
     'readthedocs_ext.readthedocs',
-    'sphinx.ext.viewcode',
-    'sphinx.ext.todo',
-    'sphinx_toolbox.more_autodoc',
+    'sphinx.ext.napoleon',
     'sphinx.ext.autodoc']
 
 templates_path = ['_templates']
