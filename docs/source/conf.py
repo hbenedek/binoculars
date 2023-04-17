@@ -29,5 +29,6 @@ html_static_path = ['_static']
 import os
 import sys
 from pathlib import Path
+
 current = Path(os.path.abspath(os.path.dirname(__file__)))
 sys.path.insert(0, os.path.abspath(current.parent.parent))
