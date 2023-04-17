@@ -4,7 +4,7 @@ binoculars.cluster
 Module contents
 ---------------
 
-.. automodule:: binoculars.cluster
+.. automodule:: cluster
    :members:
    :undoc-members:
    :show-inheritance:
