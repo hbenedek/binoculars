@@ -6,22 +6,27 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "binoculars"
-copyright = "2023, hbenedek"
-author = "hbenedek"
-release = "0.1"
+project = 'binoculars'
+copyright = '2023, hbenedek'
+author = 'hbenedek'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ["sphinx_rtd_theme"]
+extensions = ['sphinx.ext.autodoc', 'sphinx.ext.napoleon']
 
-templates_path = ["_templates"]
-exclude_patterns = []
+templates_path = ['_templates']
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+
 
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = "sphinx_rtd_theme"
-html_static_path = ["_static"]
+html_theme = 'sphinx_rtd_theme'
+html_static_path = ['_static']
+
+import os
+import sys
+
+sys.path.insert(0, os.path.abspath('../python'))
