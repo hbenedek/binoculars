@@ -4,7 +4,7 @@ binoculars.linear
 Module contents
 ---------------
 
-.. automodule:: binoculars.linear
+.. automodule:: linear
    :members:
    :undoc-members:
    :show-inheritance:
