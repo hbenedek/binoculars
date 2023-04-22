@@ -8,11 +8,11 @@ from binooculars import LinearRegressionRust, LogisticRegressionRust
 class LinearRegression:
     """Least squares linear regression with Rust backend."""
 
-    def __init__(self) -> None:
-        self._rustobj = LinearRegressionRust()
+    def __init__(self, method: str = "ls", with_bias: bool = True) -> None:
+        self._rustobj = LinearRegressionRust(method, with_bias)
         self.weights = None
-        self.method = None
-        self.is_bias = False
+        self.method = method
+        self.is_bias = with_bias
 
     def __str__(self) -> str:
         """Return a string representation of the model."""
@@ -55,11 +55,11 @@ class LinearRegression:
 class LogisticRegression:
     """Logistic regression with Rust backend."""
 
-    def __init__(self) -> None:
-        self._rustobj = LogisticRegressionRust()
+    def __init__(self, method: str = "gd", with_bias: bool = True, epoch: int = 10, batch: int = 32) -> None:
+        self._rustobj = LogisticRegressionRust(method, with_bias, epoch, batch)
         self.weights = None
-        self.method = None
-        self.is_bias = False
+        self.method = method
+        self.is_bias = with_bias
 
     def __str__(self) -> str:
         """Return a string representation of the model."""
