@@ -3,8 +3,9 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
-## Unreleased
+## 0.0.1
 
+* Rename package to `binooculars` from `binoculars` and deploy [#17](https://github.com/hbenedek/binooculars/pull/17)
 * Added Read the Docs automatic documenatiotn [#15](https://github.com/hbenedek/binoculars/pull/15)
 * Added README.md [#13](https://github.com/hbenedek/binoculars/pull/13)
 * Added `KMeans` [#12](https://github.com/hbenedek/binoculars/pull/12)
