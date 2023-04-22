@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from binoculars import KMeansRust
+from binooculars import KMeansRust
 
 
 class KMeans:

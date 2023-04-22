@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from binoculars import LinearRegressionRust, LogisticRegressionRust
+from binooculars import LinearRegressionRust, LogisticRegressionRust
 
 
 class LinearRegression:
