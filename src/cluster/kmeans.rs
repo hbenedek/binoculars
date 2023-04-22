@@ -1,5 +1,3 @@
-use std::vec::IntoIter;
-
 use crate::cluster::dist::euclidean_distance;
 use itertools::Itertools;
 use pyo3::prelude::*;

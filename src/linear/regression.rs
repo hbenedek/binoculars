@@ -8,48 +8,35 @@ use pyo3::prelude::*;
 
 #[pyclass]
 pub struct LinearRegressionRust {
-    weights: Array1<f64>,
-    schema: Vec<String>,
-    with_bias: bool,
     method: String,
+    with_bias: bool,
+    weights: Array1<f64>,
 }
 
 #[pyclass]
 pub struct LogisticRegressionRust {
-    weights: Array1<f64>,
-    schema: Vec<String>,
-    with_bias: bool,
     method: String,
+    with_bias: bool,
     epoch: usize,
     batch: usize,
     learning_rate: f64,
     losses: Vec<f64>,
+    weights: Array1<f64>,
 }
 
 #[pymethods]
 impl LinearRegressionRust {
     #[new]
-    fn new() -> Self {
+    fn new(method: String, with_bias: bool) -> Self {
         LinearRegressionRust {
+            method,
+            with_bias,
             weights: array![],
-            schema: Vec::new(),
-            with_bias: false,
-            method: "".to_string(),
         }
     }
 
     fn get_weights(&self) -> PyResult<Vec<f64>> {
         Ok(self.weights.to_vec())
-    }
-
-    fn get_weights_dict(&self) -> PyResult<Vec<(String, f64)>> {
-        let mut weights = Vec::new();
-        if self.schema.len() == self.weights.len() {
-            for (i, w) in self.weights.iter().enumerate() {
-                weights.push((self.schema[i].clone(), w.to_owned()));
-            }
-        }
-        Ok(weights)
     }
 
     fn set_weights(&mut self, weights: Vec<f64>) -> PyResult<()> {
@@ -68,11 +55,6 @@ impl LinearRegressionRust {
         self.method = method;
         Ok(())
     }
-
-    // fn with_schema(&mut self, schema: Vec<String>) -> PyResult<()> {
-    //     self.schema = schema;
-    //     Ok(())
-    // }
 
     fn fit(&mut self, x: Vec<Vec<f64>>, y: Vec<f64>) -> PyResult<()> {
         let x = add_bias(x, self.with_bias);
@@ -100,14 +82,13 @@ impl LinearRegressionRust {
 #[pymethods]
 impl LogisticRegressionRust {
     #[new]
-    fn new() -> Self {
+    fn new(method: String, with_bias: bool, epoch: usize, batch: usize) -> Self {
         LogisticRegressionRust {
+            method,
+            with_bias,
+            epoch,
+            batch,
             weights: array![],
-            schema: Vec::new(),
-            with_bias: false,
-            method: "".to_string(),
-            epoch: 0,
-            batch: 0,
             losses: Vec::new(),
             learning_rate: 0.0,
         }
