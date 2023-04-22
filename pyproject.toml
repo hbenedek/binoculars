@@ -3,14 +3,19 @@ requires = ["maturin>=0.14,<0.15", "setuptools", "wheel", "setuptools-rust"]
 build-backend = "maturin"
 
 [project]
-name = "binoculars"
+name = "binooculars"
+version = "0.0.2"
+authors = [
+  { name="Benedek Harsanyi"},
+]
+description = "A tiny, yet blazingly fast machine learning library written in Rust with Python interface."
+readme = "README.md"
 requires-python = ">=3.7"
 classifiers = [
     "Programming Language :: Rust",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
 ]
-
 [tool.maturin]
 python-source = "python"
 features = ["pyo3/extension-module"]
