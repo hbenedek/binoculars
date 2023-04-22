@@ -1,10 +1,10 @@
-binoculars.linear
+binooculars.linear
 =========================
 
 Module contents
 ---------------
 
-.. automodule:: binoculars.linear
+.. automodule:: binooculars.linear
    :members:
    :undoc-members:
    :show-inheritance:

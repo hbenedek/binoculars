@@ -1,10 +1,10 @@
-binoculars.cluster
+binooculars.cluster
 ==========================
 
 Module contents
 ---------------
 
-.. automodule:: binoculars.cluster
+.. automodule:: binooculars.cluster
    :members:
    :undoc-members:
    :show-inheritance:
