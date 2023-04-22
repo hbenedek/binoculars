@@ -1,4 +1,7 @@
 # binooculars
+[![PyPI version](https://badge.fury.io/py/binooculars.svg)](https://badge.fury.io/py/binooculars)
+![python](https://github.com/hbenedek/binooculars/actions/workflows/python.yml/badge.svg)
+![rust](https://github.com/hbenedek/binooculars/actions/workflows/rust.yml/badge.svg)
 
 A tiny, yet blazingly fast machine learning library written in Rust with Python interface.
 This project was motivated by [polars](https://github.com/pola-rs/polars) and [sklearn](https://github.com/scikit-learn/scikit-learn). 
