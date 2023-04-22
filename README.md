@@ -1,4 +1,5 @@
-# binoculars
+# binooculars
+
 A tiny, yet blazingly fast machine learning library written in Rust with Python interface.
 This project was motivated by [polars](https://github.com/pola-rs/polars) and [sklearn](https://github.com/scikit-learn/scikit-learn). 
 The goal is to learn Rust, have a better understanding of what is happening under the hood of classic ML models, and explore the pitfalls of building a Python package.
