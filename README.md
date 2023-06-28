@@ -1,4 +1,4 @@
-# binooculars
+# 🔭 binooculars
 [![PyPI version](https://badge.fury.io/py/binooculars.svg)](https://badge.fury.io/py/binooculars)
 ![python](https://github.com/hbenedek/binooculars/actions/workflows/python.yml/badge.svg)
 ![rust](https://github.com/hbenedek/binooculars/actions/workflows/rust.yml/badge.svg)
